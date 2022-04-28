@@ -2,14 +2,15 @@ const axios = require("axios");
 
 
 exports.handler = async function (event) {
+    const {email, url_x, url_y} = JSON.parse(event.body);
 
-    const API_ENDPOINT = `https://vue-test-22.netlify.app/.netlify/functions/pup-core`;
-
-    const scrappedDataResponse = await axios.get(API_ENDPOINT, {
-        url_x : 'https://login-absolute.netlify.app/',
-        url_y : 'https://login-output-responsive.netlify.app/',
-        email : 'jayampathi.bac@gmail.com'
+    // const scrappedDataResponse = await axios.post(`https://vue-test-22.netlify.app/.netlify/functions/pup-core`, {
+    const scrappedDataResponse = await axios.post(`http://localhost:9664/.netlify/functions/pup-core`, {
+        url_x : url_x,
+        url_y : url_y,
+        email : email
     });
 
-    // console.log('scrappedDataResponse', scrappedDataResponse)
+
+    console.log('scrappedDataResponse', scrappedDataResponse.data)
 };
