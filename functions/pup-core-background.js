@@ -262,10 +262,10 @@ exports.handler = async function (event) {
     };
 
     try {
-        const {email, url_x, url_y} = JSON.parse(event.body);
-        // const url_x = 'https://login-absolute.netlify.app/'
-        // const url_y = 'https://login-output-responsive.netlify.app/'
-        // const email = 'jayampathi.bac@gmail.com'
+        // const {email, url_x, url_y} = JSON.parse(event.body);
+        const url_x = 'https://login-absolute.netlify.app/'
+        const url_y = 'https://login-output-responsive.netlify.app/'
+        const email = 'jayampathi.bac@gmail.com'
 
         if (!email && !url_x && !url_y) {
             return errorGen('Missing Fields. Please try again..!');
