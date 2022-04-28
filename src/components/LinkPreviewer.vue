@@ -27,7 +27,7 @@ import { onBeforeMount, ref } from '@vue/runtime-core'
       // function to send a POST request containing the targetURL to the serverless function
       const generatePreview = async () => {
         try {
-          const res = await fetch('/.netlify/functions/pup-core-background', {
+          const res = await fetch('/.netlify/functions/scrap-background', {
             method: 'POST',
             body: JSON.stringify({
               targetURL : props.targetURL
