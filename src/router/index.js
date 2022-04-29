@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // import Home from '../views/Home.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Mailgun from '../views/Dashboard-Mailgun.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path: '/mailgun',
+    name: 'Mailgun',
+    component: Mailgun
   },
   {
     path: '/about',

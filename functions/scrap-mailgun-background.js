@@ -1,6 +1,7 @@
 const axios = require("axios");
 const allStyleTags = require('../utils/allStyleTags.json');
 const nodemailer = require("nodemailer");
+const mg = require("nodemailer-mailgun-transport");
 const Excel = require('exceljs');
 
 const XY_MAP = {
@@ -20,7 +21,7 @@ async function saveScrappedData(url_x, url_y) {
 
     const viewPortDataList_resp = await axios.post(`https://vue-test-22.netlify.app/.netlify/functions/pup-core`, {targetURL: url_x});
     const viewPortDataList_X = viewPortDataList_resp.data
-    console.log('viewPort',viewPortDataList_X)
+    console.log('viewPort', viewPortDataList_X)
     const viewPortDataList_Y_resp = await axios.post(`https://vue-test-22.netlify.app/.netlify/functions/pup-core`, {targetURL: url_y});
     const viewPortDataList_Y = viewPortDataList_Y_resp.data
 
@@ -84,13 +85,22 @@ function sortByKey(array, key) {
     });
 }
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'userdevy.io@gmail.com',
-        pass: 'Devy.io@10'
-    }
-});
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'userdevy.io@gmail.com',
+//         pass: 'Devy.io@10'
+//     }
+// });
+
+const transporter = nodemailer.createTransport(
+    mg({
+        auth: {
+            api_key: process.env.MAILGUN_API_KEY,
+            domain: process.env.MAILGUN_DOMAIN,
+        },
+    })
+);
 
 exports.handler = async function (event) {
     const {email, url_x, url_y} = JSON.parse(event.body);
@@ -115,11 +125,11 @@ exports.handler = async function (event) {
 
     const buffer = await workbook.xlsx.writeBuffer();
 
-    const mailOptions = {
-        from: 'userdevy.io@gmail.com',
-        to: email,
-        subject: 'Dataset for the neural network',
-        text: `testing 7`,
+    const info = await transporter.sendMail({
+        from: 'John Doe <john@mg.yourdomain.com>',
+        to:  email,
+        subject: "Your dataset is ready! testing",
+        text: "See attached excel sheet. testing",
         attachments: [
             {
                 filename,
@@ -128,13 +138,7 @@ exports.handler = async function (event) {
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             },
         ],
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
     });
+
+    console.log(`test report sent: ${info.messageId}`);
 };
