@@ -19,10 +19,10 @@ async function saveScrappedData(url_x, url_y) {
 
     console.log("saveScrappedData - REQ RECEIVED: ", url_x, url_y)
 
-    const viewPortDataList_resp = await axios.post(`http://localhost:8888/.netlify/functions/pup-core`, {targetURL: url_x});
+    const viewPortDataList_resp = await axios.post(`https://vue-test-22.netlify.app/.netlify/functions/pup-core`, {targetURL: url_x});
     const viewPortDataList_X = viewPortDataList_resp.data
     console.log('viewPort',viewPortDataList_X)
-    const viewPortDataList_Y_resp = await axios.post(`http://localhost:8888/.netlify/functions/pup-core`, {targetURL: url_y});
+    const viewPortDataList_Y_resp = await axios.post(`https://vue-test-22.netlify.app/.netlify/functions/pup-core`, {targetURL: url_y});
     const viewPortDataList_Y = viewPortDataList_Y_resp.data
 
     const styleData = [];
