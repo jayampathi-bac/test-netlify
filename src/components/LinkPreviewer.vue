@@ -42,6 +42,7 @@ import { onBeforeMount, ref } from '@vue/runtime-core'
           return null
         }
       }
+      console.log("hi")
 
       // run function before component is mounted
       onBeforeMount(async ()=>{
